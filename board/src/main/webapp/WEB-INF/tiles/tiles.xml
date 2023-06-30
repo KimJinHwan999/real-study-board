@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN" "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
+<tiles-definitions>
+	<!-- 설정 부분 -->
+	<!-- 기본 tiles -->
+	<definition name="layout-tiles" template="/WEB-INF/tiles/layouts/layout-basic.jsp">
+		<put-attribute name="include" value="/WEB-INF/tiles/include/include.jsp" />
+		<put-attribute name="header" value="/WEB-INF/tiles/templates/header.jsp"/>
+		<put-attribute name="side" value="/WEB-INF/tiles/templates/side.jsp"/>
+		<put-attribute name="body" value=""/>
+	</definition>
+	
+	<!-- 회원가입 tiles -->
+	<definition name="signup-tiles" template="/WEB-INF/tiles/layouts/layout-signup.jsp">
+		<put-attribute name="include" value="/WEB-INF/tiles/include/include.jsp" />
+		<put-attribute name="include-signup" value="/WEB-INF/tiles/include/include-signup.jsp" />
+		<put-attribute name="header" value="/WEB-INF/tiles/templates/header.jsp"/>
+		<put-attribute name="body" value=""/>
+	</definition>
+	
+	<!-- 로그인 tiles -->
+	<definition name="signin-tiles" template="/WEB-INF/tiles/layouts/layout-signin.jsp">
+		<put-attribute name="include" value="/WEB-INF/tiles/include/include.jsp" />
+		<put-attribute name="include-signin" value="/WEB-INF/tiles/include/include-signin.jsp" />
+		<put-attribute name="header" value="/WEB-INF/tiles/templates/header.jsp"/>
+		<put-attribute name="body" value=""/>
+	</definition>
+	
+	<!-- 아이디찾기 tiles -->
+	<definition name="findid-tiles" template="/WEB-INF/tiles/layouts/layout-findid.jsp">
+		<put-attribute name="include" value="/WEB-INF/tiles/include/include.jsp" />
+		<put-attribute name="include-findid" value="/WEB-INF/tiles/include/include-findid.jsp" />
+		<put-attribute name="header" value="/WEB-INF/tiles/templates/header.jsp"/>
+		<put-attribute name="body" value=""/>
+	</definition>
+	
+	<!-- 마이페이지 tiles -->
+	<definition name="mypage-tiles" template="/WEB-INF/tiles/layouts/layout-mypage.jsp">
+		<put-attribute name="include" value="/WEB-INF/tiles/include/include.jsp" />
+		<put-attribute name="include-mypage" value="/WEB-INF/tiles/include/include-mypage.jsp" />
+		<put-attribute name="header" value="/WEB-INF/tiles/templates/header.jsp"/>
+		<put-attribute name="body" value=""/>
+	</definition>
+	
+	<!-- 비밀번호찾기 tiles -->
+	<definition name="findpw-tiles" template="/WEB-INF/tiles/layouts/layout-findid.jsp">
+		<put-attribute name="include" value="/WEB-INF/tiles/include/include.jsp" />
+		<put-attribute name="include-findid" value="/WEB-INF/tiles/include/include-findid.jsp" />
+		<put-attribute name="header" value="/WEB-INF/tiles/templates/header.jsp"/>
+		<put-attribute name="body" value=""/>
+	</definition>
+	
+	<!-- 게시판 글쓰기 tiles -->
+	<definition name="board-write-tiles" template="/WEB-INF/tiles/layouts/layout-board-write.jsp">
+		<put-attribute name="include" value="/WEB-INF/tiles/include/include.jsp" />
+		<put-attribute name="include-board-write" value="/WEB-INF/tiles/include/include-board-write.jsp" />
+		<put-attribute name="header" value="/WEB-INF/tiles/templates/header.jsp"/>
+		<put-attribute name="body" value=""/>
+	</definition>
+	
+	<!-- 포스트 내용 tiles -->
+	<definition name="board-post-tiles" template="/WEB-INF/tiles/layouts/layout-board-post.jsp">
+		<put-attribute name="include" value="/WEB-INF/tiles/include/include.jsp" />
+		<put-attribute name="include-board-post" value="/WEB-INF/tiles/include/include-board-post.jsp" />
+		<put-attribute name="header" value="/WEB-INF/tiles/templates/header.jsp"/>
+		<put-attribute name="side" value="/WEB-INF/tiles/templates/side.jsp"/>
+		<put-attribute name="body" value=""/>
+	</definition>
+	
+	<!-- 적용 부분 -->
+	<!-- index 폴더 -->
+	<definition name="index/*" extends="layout-tiles">
+		<put-attribute name="body" value="/WEB-INF/views/index/{1}.jsp"/>
+	</definition>
+    
+	<!-- 회원가입 -->
+	<definition name="member/signup" extends="signup-tiles">
+         <put-attribute name="body" value="/WEB-INF/views/member/signup.jsp"/>
+    </definition>
+    
+	<!-- 로그인 -->
+	<definition name="member/signin" extends="signin-tiles">
+         <put-attribute name="body" value="/WEB-INF/views/member/signin.jsp"/>
+    </definition>
+    
+	<!-- 마이페이지 -->
+	<definition name="member/mypage" extends="mypage-tiles">
+         <put-attribute name="body" value="/WEB-INF/views/member/mypage.jsp"/>
+    </definition>
+    
+	<!-- 아이디찾기 -->
+	<definition name="member/findid" extends="findid-tiles">
+         <put-attribute name="body" value="/WEB-INF/views/member/findid.jsp"/>
+    </definition>
+    
+	<!-- 비밀번호찾기 -->
+	<definition name="member/findpw" extends="findpw-tiles">
+         <put-attribute name="body" value="/WEB-INF/views/member/findpw.jsp"/>
+    </definition>
+    
+	<!-- 게시판 글쓰기 -->
+	<definition name="board/write" extends="board-write-tiles">
+         <put-attribute name="body" value="/WEB-INF/views/board/write.jsp"/>
+    </definition>
+    
+	<!-- 포스트 내용 -->
+	<definition name="board/post" extends="board-post-tiles">
+         <put-attribute name="body" value="/WEB-INF/views/board/post.jsp"/>
+    </definition>
+	
+</tiles-definitions>

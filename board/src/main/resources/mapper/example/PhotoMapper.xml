@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.board.mapper.PhotoMapper">
+
+	<!-- 게시글 첨부 사진 등록 -->
+	<insert id="insertImage">
+		INSERT INTO
+		PHOTO (post_id, post_img_original_name, post_img_saved_name)
+		VALUES (#{post_id}, #{fileListOriginName}, #{fileList})
+	</insert>
+	
+	<!-- 게시글 첨부 사진 삭제 -->
+	<delete id="deleteImage">
+		DELETE FROM PHOTO WHERE post_id = #{post_id}
+	</delete>
+	
+	<!-- 글 PK로 사진 이름 찾아오기 -->
+	<select id="findPhotoByNo" resultType="String" >
+		SELECT post_img_saved_name FROM PHOTO WHERE post_id=#{post_id}
+	</select>
+
+
+</mapper>
+	

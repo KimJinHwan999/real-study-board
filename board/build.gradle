@@ -1,0 +1,52 @@
+plugins {
+	id 'java'
+	id 'org.springframework.boot' version '2.7.12'
+	id 'io.spring.dependency-management' version '1.0.15.RELEASE'
+}
+
+group = 'com.example'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '1.8'
+
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	// tiles
+	implementation 'org.apache.tiles:tiles-jsp:3.0.8'
+    implementation 'org.apache.tiles:tiles-core:3.0.8'
+    implementation 'org.apache.tiles:tiles-servlet:3.0.8'
+
+	// JSP	
+	implementation 'org.apache.tomcat.embed:tomcat-embed-jasper'
+	
+	// JSTL
+  	implementation 'javax.servlet:jstl'
+  	
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	
+	implementation 'org.mariadb.jdbc:mariadb-java-client:3.0.6'
+	
+	implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.3.1'
+	
+	// 이메일
+	implementation 'org.springframework.boot:spring-boot-starter-mail:2.7.1'
+	
+	implementation 'com.google.code.gson:gson:2.8.7'
+	
+	
+	compileOnly 'org.projectlombok:lombok'
+	annotationProcessor 'org.projectlombok:lombok'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}

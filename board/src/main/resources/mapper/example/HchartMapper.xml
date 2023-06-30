@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.board.mapper.HchartMapper">
+
+	<select id="selectBoardNum_">
+		SELECT DISTINCT board_num
+		FROM BOARD
+		ORDER BY board_num ASC
+	</select>
+	
+	<select id="hchartBoardCnt" >
+		SELECT COUNT(*) 
+		FROM BOARD
+		WHERE		
+		board_num = #{boardNum}
+	</select>
+	
+</mapper>

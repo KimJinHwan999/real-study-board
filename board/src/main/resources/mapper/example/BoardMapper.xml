@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.board.mapper.BoardMapper">
+
+	<!-- 게시글 전부 찾기 -->
+	<select id="findAllBoard" resultType="com.example.board.dto.BoardDTO">
+		SELECT * FROM BOARD;
+	</select>
+	
+	<select id="findPageData" resultType="com.example.board.dto.BoardDTO">
+		SELECT * 
+		FROM BOARD 
+		ORDER BY post_id
+		LIMIT #{firstPost}, #{postingCnt};
+	</select>
+	
+	<!-- 게시글 등록 -->
+	<insert id="insertBoard" parameterType="com.example.board.dto.BoardDTO">
+		<selectKey keyProperty="post_id" resultType="long" order="BEFORE">
+			SELECT MAX(post_id)+1 FROM board
+		</selectKey>
+		INSERT INTO 
+		BOARD (member_no, board_num, post_name, post_text, post_date, post_views) 
+		VALUES (#{member_no},#{board_num},#{post_name},#{post_text},#{post_date},#{post_views})
+	</insert>
+	
+	<!-- 게시글 번호로 게시글 찾아오기 -->
+	<select id="findById" resultType="com.example.board.dto.BoardDTO">
+		SELECT * FROM BOARD WHERE post_id = #{post_id}
+	</select>
+	
+	<!-- 조회수 로직 -->
+	<update id="updateViews">
+		UPDATE BOARD 
+		SET post_views = #{post_views}
+		WHERE post_id = #{post_id}
+	</update>
+	
+	<!-- 게시글 삭제 -->
+	<delete id="deletePost">
+		DELETE FROM BOARD WHERE post_id = #{post_id}
+	</delete>
+	
+	<select id="findAllByBoardNum">
+		SELECT *
+		FROM BOARD
+		WHERE board_num = #{board_num}
+	</select>
+	
+	<!-- 게시글 수정 -->
+	<update id="updatePost" parameterType="com.example.board.dto.BoardDTO">
+		UPDATE BOARD 
+		SET
+			member_no = #{member_no},
+			board_num = #{board_num},
+			post_name = #{post_name}, 
+			post_text = #{post_text}, 
+			post_date = #{post_date}, 
+			post_views = #{post_views}
+		WHERE 
+			post_id = #{post_id}
+	</update>
+
+</mapper>
+	
