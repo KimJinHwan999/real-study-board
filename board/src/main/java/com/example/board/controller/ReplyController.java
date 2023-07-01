@@ -27,28 +27,18 @@ public class ReplyController {
 									String member_id,
 									String reply_content) {
 		
-		Timestamp reply_date = Timestamp.valueOf(LocalDateTime.now().withNano(0));
+		replyService.insertReply(post_id, member_no, member_id, reply_content);
 		
-		ReplyDTO reply = new ReplyDTO();
-		reply.setPost_id(post_id);
-		reply.setMember_no(member_no);
-		reply.setMember_id(member_id);
-		reply.setReply_content(reply_content);
-		reply.setReply_date(reply_date);
-		
-		replyService.insertReply(reply);
-		
-		return "/board/post/" + post_id;
+		return "/board/post/{post_id}";
 	}
 	
 	@ResponseBody
 	@PostMapping("/board/reply/delete/{post_id}")
 	public String deleteReplyAction(@PathVariable("post_id") Long post_id,
 									Long reply_id) {
-	
 		
 		replyService.deleteReply(reply_id);
 		
-		return "/board/post/" + post_id;
+		return "/board/post/{post_id}";
 	}
 }

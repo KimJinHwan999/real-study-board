@@ -3,6 +3,7 @@
  */
 $(document).ready(function(){
 	
+	
 	/*========== 추가 이미지 썸네일 ==========*/	
 	$("#post_img").on("change", function(e){
 		

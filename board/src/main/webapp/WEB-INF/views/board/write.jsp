@@ -9,7 +9,8 @@
 				<table class="table table-striped" style="text-align: center; border: 1px solid #dddddd">
 					<thead>
 						<tr>
-							<th colspan="2" style="background-color: #2e8b57; text-align:center;">게시판 글쓰기 양식</th>
+							<c:if test="${path eq '/board/writeprocess' }"><th colspan="2" style="background-color: #2e8b57; text-align:center;">게시판 글쓰기 양식</th></c:if>
+							<c:if test="${path ne '/board/writeprocess' }"><th colspan="2" style="background-color: #2e8b57; text-align:center;">글 수정</th></c:if>
 						</tr>
 					</thead>
 					<tbody>
@@ -21,13 +22,25 @@
 						</tr>
 						<tr>
 							<td>
-								<label for="post_img">
+								<label for="post_img" style="cursor:pointer;">
 									원하는 사진을 업로드 하세요<br> 
 									(한 번에 여러장 업로드가 가능합니다)
 								</label>
-								<input type="file" name="file" id="post_img" accept="image/*" multiple />
-								<div id="img-file"></div>
-								<div id="img-file-name"></div>
+								<input type="file" name="file" id="post_img" accept="image/*" multiple style="display:none"/>
+								<div id="img-file">
+									<c:forEach var="photo" items="${photo}" >
+										<div>
+											<img src="/imgPath/post_img/<c:out value="${photo.post_img_saved_name }"/>"  style="width:300px; margin-top:20px; margin-bottom:20px;">
+										</div>
+									</c:forEach>
+								</div>
+								<div id="img-file-name">
+									<c:forEach var="photo" items="${photo}" >
+										<div>
+											<span><c:out value="${photo.post_img_original_name }"/></span>
+										</div>
+									</c:forEach>
+								</div>
 							</td>
 						</tr>
 					</tbody>
@@ -52,9 +65,8 @@
 					
 					<br>
 					<br>
-					
-					<input type="submit" class="btn btn-success pull-right" value="글쓰기">
-					
+						<c:if test="${path eq '/board/writeprocess' }"><input type="submit" class="btn btn-success pull-right" value="글 쓰기"></c:if>
+						<c:if test="${path ne '/board/writeprocess' }"><input type="submit" class="btn btn-success pull-right" value="글 수정하기"></c:if>
 					<br>
 					<br>
 					

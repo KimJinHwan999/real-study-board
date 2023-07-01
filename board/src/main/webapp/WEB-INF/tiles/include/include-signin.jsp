@@ -11,9 +11,6 @@
 <script src="/vendor/bootstrap/js/bootstrap.min.js"></script>
 <script src="/vendor/select2/select2.min.js"></script>
 
-<script type="text/javascript" src="/api/rsa2js/rsa.js"></script>
-<script type="text/javascript" src="/api/rsa2js/jsbn.js"></script>
-<script type="text/javascript" src="/api/rsa2js/prng4.js"></script>
-<script type="text/javascript" src="/api/rsa2js/rng.js"></script>
+
 
 <script type="text/javascript" src="/js/signin.js"/></script>

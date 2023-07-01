@@ -2,20 +2,16 @@ package com.example.board.service;
 
 import java.io.File;
 import java.io.IOException;
-import java.security.PrivateKey;
 import java.util.List;
 import java.util.UUID;
 
-import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.example.board.dto.MemberDTO;
-import com.example.board.dto.RSA;
 import com.example.board.mapper.MemberMapper;
-import com.example.board.util.RSAUtil;
 import com.example.board.util.SHA256;
 
 import lombok.RequiredArgsConstructor;
@@ -23,14 +19,22 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class MemberService {
 
 	private final MemberMapper memberMapper;
 	
 	
-	/* 회원가입 */
+	/* 회원가입 전체 과정 */
 	@Transactional
-	public int insertMember(MemberDTO memberdto) {
+	public int insertMemberProcess(MemberDTO memberdto,
+								   MultipartFile file) throws IOException {
+		/* 프로필 이미지 경로 설정 메소드 */
+		memberImgPath(memberdto, file);
+		
+		/* 암호 해쉬화 매소드 */
+		hashPassWord(memberdto);
+		
         return memberMapper.insertMember(memberdto);
     }
 	
@@ -40,8 +44,25 @@ public class MemberService {
 		return memberMapper.idAjax(member_id);
 	}
 	
-	/* 프로필 이미지 경로 설정 메소드 */
+	/* 회원 정보 업데이트 전체 과정 */
 	@Transactional
+	public int updateMemberProcess(MemberDTO loginUserSession,
+								   MemberDTO member,
+								   MultipartFile file) throws IOException {
+		Long member_no = loginUserSession.getMember_no();
+		
+		member.setMember_no(member_no);
+		
+		/* 프로필 이미지 경로 설정 메소드 */
+		memberImgPath(member, file);
+		
+		/* 암호 해쉬화 메소드 */
+		hashPassWord(member);
+		
+		return memberMapper.updateMember(member);
+	}
+	
+	/* 프로필 이미지 경로 설정 메소드 */
 	public MemberDTO memberImgPath(MemberDTO memberdto,
 							  	   MultipartFile file) throws IOException {
 		
@@ -87,48 +108,26 @@ public class MemberService {
 	
 	/* 로그인 */
 	public List<MemberDTO> signIn(MemberDTO memberdto){
+		hashPassWord(memberdto);
 		return memberMapper.signIn(memberdto);
 	}
 	
-	/* 3. 아이디 비밀번호 복호화 */
-	public MemberDTO decryptText(MemberDTO memberdto,
-								 PrivateKey key) throws Exception{
-		
-		RSAUtil rsaUtil = new RSAUtil();
-		
-		// 3-1. form에 담겨온 id와 pw를 decryptText메소드를 이용해 복호화하여 원래의 평문으로 되돌림
-		String id = rsaUtil.getDecryptText(key, memberdto.getMember_id());
-        String password = rsaUtil.getDecryptText(key, memberdto.getMember_pw());
-
-		// 3-2. 복호화된 평문을 memberdto에 재설정
-        memberdto.setMember_id(id);
-        memberdto.setMember_pw(password);
-        
-		return memberdto;
-	}
-	
-	/* RSA privateKey, publicKey 생성 메소드 */
-	public RSA rsaKey(HttpSession session) {
-		
-		// 1. RSAUtil 생성자 만들어줌
-		RSAUtil rsaUtil = new RSAUtil();
-		
-		// 2. 세션에 "RSAprivateKey"라는 이름으로 private키가 존재하는지 확인
-		PrivateKey key = (PrivateKey) session.getAttribute("RSAprivateKey");
-		
-		// 2-1. 기존에 키가 있다면 파기시켜 버리기
-		if(key != null) { // 기존 key 파기
-			session.removeAttribute("RSAprivateKey");
-		}
-		
-		// 2-2. 기존에 키가 없는걸 확인하고, 새로운 키 값을 가진 RSA르 만들어 줌
-		RSA rsa = rsaUtil.createRSA();
-		
-		return rsa;
-	}
-	
 	/* 로그인 실패 원인 찾는 메소드 */
-	public MemberDTO findById(String member_id){
+	public String loginFail(MemberDTO memberdto){
+		String member_id = memberdto.getMember_id();
+		MemberDTO memberData = memberMapper.findById(member_id);
+		
+		// 1-1. 아이디는 DB에 존재하지만, 비밀번호가 틀린 경우
+		String msg = "비밀번호가 일치하지 않습니다.";
+		// 1-2. 아이디 값이 아예 DB에 없는 경우
+		if(memberData == null) {
+			msg = "아이디가 존재하지 않습니다.";
+		}
+		return msg;
+	}
+	
+	/* 회원 아이디로 회원정보 찾기 */
+	public MemberDTO findById(String member_id) {
 		return memberMapper.findById(member_id);
 	}
 	
@@ -141,11 +140,7 @@ public class MemberService {
 	public String findIdByNo(Long member_no){
 		return memberMapper.findIdByNo(member_no);
 	}
-	
-	public int updateMember(MemberDTO member) {
-		return memberMapper.updateMember(member);
-	}
-	
+
 }
 
 

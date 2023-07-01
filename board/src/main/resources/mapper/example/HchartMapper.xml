@@ -6,15 +6,14 @@
 
 	<select id="selectBoardNum_">
 		SELECT DISTINCT board_num
-		FROM BOARD
-		ORDER BY board_num ASC
+		  FROM BOARD
+	  ORDER BY board_num ASC
 	</select>
 	
 	<select id="hchartBoardCnt" >
 		SELECT COUNT(*) 
-		FROM BOARD
-		WHERE		
-		board_num = #{boardNum}
+		  FROM BOARD
+		 WHERE board_num = #{boardNum}
 	</select>
 	
 </mapper>

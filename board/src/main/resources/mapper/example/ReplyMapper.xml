@@ -5,18 +5,27 @@
 <mapper namespace="com.example.board.mapper.ReplyMapper">
 
 	<select id="findReplyByPostId">
-		SELECT * FROM REPLY WHERE post_id = #{post_id}
+		SELECT * 
+		  FROM REPLY 
+		 WHERE post_id = #{post_id}
 	</select>
 	
 	<insert id="insertReply" parameterType="com.example.board.dto.ReplyDTO" useGeneratedKeys="true" keyProperty="reply_id">
-		INSERT INTO 
-		REPLY (reply_id, post_id, member_no, member_id, reply_content, reply_date)
-		VALUES (#{reply_id}, #{post_id}, #{member_no}, #{member_id}, #{reply_content}, #{reply_date})
+		INSERT INTO REPLY (reply_id, post_id, member_no, member_id, reply_content, reply_date)
+		     VALUES (#{reply_id}, #{post_id}, #{member_no}, #{member_id}, #{reply_content}, #{reply_date})
 		
 	</insert>
 
 	<delete id="deleteReply">
-		DELETE FROM REPLY WHERE reply_id = #{reply_id}
+		DELETE 
+		  FROM REPLY 
+		 WHERE reply_id = #{reply_id}
+	</delete>
+	
+	<delete id="deleteAllReply">
+		DELETE 
+		  FROM REPLY 
+		 WHERE post_id = #{post_id}
 	</delete>
 
 </mapper>

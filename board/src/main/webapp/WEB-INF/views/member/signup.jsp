@@ -8,7 +8,7 @@
 			
 			
 			
-				<form 	<c:if test="${purpose eq 'update'}">action="/member/update"</c:if>
+				<form 	<c:if test="${purpose eq 'update'}">action="/member/updateprocess"</c:if>
 						<c:if test="${purpose eq 'signup'}">action="/member/signupprocess"</c:if> 
 						class="form-detail" id="myform" method="post" encType="multipart/form-data">
 			

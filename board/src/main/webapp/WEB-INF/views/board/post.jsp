@@ -67,7 +67,7 @@
 									
 									<c:forEach var="postPhoto" items="${postPhoto}" >
 										<div>
-											<img src="/imgPath/post_img/<c:out value="${postPhoto }"/>"  style="width:300px; margin-top:20px; margin-bottom:20px;">
+											<img src="/imgPath/post_img/<c:out value="${postPhoto.post_img_saved_name }"/>"  style="width:300px; margin-top:20px; margin-bottom:20px;">
 										</div>
 									</c:forEach>
 									

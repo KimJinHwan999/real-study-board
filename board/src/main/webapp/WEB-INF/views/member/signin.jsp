@@ -14,9 +14,6 @@
 						로그인
 					</span>
 	
-					<input value="${modulus }" type="hidden" id="modulus"/>
-					<input value="${exponent }" type="hidden" id="exponent"/>
-					
 					<div class="wrap-input100 validate-input" data-validate = "아이디를 입력해주세요">
 						<input class="input100" type="text" name="member_id" id="member_id" placeholder="아이디">
 						<span class="focus-input100"></span>
@@ -65,13 +62,7 @@
 					</div>
 				</form>
 				
-				<!-- 실제 서버로 전송되는 form -->
-				<form action="/member/signin" method="post" id="hiddenForm">
-					<fieldset>
-						<input type="hidden" name="member_id" />
-						<input type="hidden" name="member_pw" />
-					</fieldset>
-				</form>
+				
 				
 			</div>
 		</div>

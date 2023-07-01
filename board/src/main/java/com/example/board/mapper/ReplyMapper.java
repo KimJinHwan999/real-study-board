@@ -18,7 +18,6 @@ public interface ReplyMapper {
 	
 	public int deleteReply(Long reply_id);
 	
-	
-	
+	public int deleteAllReply(Long post_id);
 	
 }

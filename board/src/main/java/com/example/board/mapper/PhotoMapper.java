@@ -5,6 +5,8 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import com.example.board.dto.PhotoDTO;
+
 @Mapper
 public interface PhotoMapper {
 	
@@ -17,6 +19,6 @@ public interface PhotoMapper {
 	public int deleteImage(Long post_id);
 	
 	/* 글 PK로 사진 이름 찾아오기 */
-	public List<String> findPhotoByNo(@Param("post_id") Long post_id);
+	public List<PhotoDTO> findPhotoByNo(@Param("post_id") Long post_id);
 
 }

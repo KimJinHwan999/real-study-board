@@ -2,10 +2,10 @@ package com.example.board.service;
 
 import java.io.File;
 import java.io.IOException;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 
 import org.springframework.stereotype.Service;
@@ -13,15 +13,15 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.example.board.dto.BoardDTO;
+import com.example.board.dto.MemberDTO;
 import com.example.board.mapper.BoardMapper;
 import com.example.board.mapper.PhotoMapper;
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @Service
+@Transactional(readOnly = true)
 public class BoardService {
 
 	private final BoardMapper boardMapper;
@@ -32,17 +32,28 @@ public class BoardService {
 		return boardMapper.findAllBoard();
 	}
 	
-	/* 게시글 등록 */
+	/* 게시글 등록 프로세스 */
 	@Transactional
-	public Long insertBoard(BoardDTO board) {
+	public Long insertBoardProcess(MemberDTO member, 
+								   BoardDTO board) throws IOException {
+		// 세션에 저장된 계정 정보의 id값 추출
+		Long writeMemberNo = member.getMember_no();
+		// insert할 board의 member_no값에 세션에 저장된 계정정보의 id값으로 채워넣어주기
+		board.setMember_no(writeMemberNo);
+		// insert할 board의 post_date 채워주기
+		board.setPost_date(Timestamp.valueOf(LocalDateTime.now().withNano(0)));
+		
 		return boardMapper.insertBoard(board);
 	}
 	
 	/* img파일 경로 잡아주기 & DB에 첨부 사진 등록 */
 	@Transactional
-	public void postImgPath(Long post_id,
+	public void postImgPath(BoardDTO board,
 		  	   				List<MultipartFile> file) throws IOException {
 
+		// 글 번호 지정
+		Long post_id = board.getPost_id();
+		
 		// 0. 뒤에서 정의할 UUID로 수정한 파일 이름 (DB에 저장될 이름)
 		String savedFileName = "";		
 		
@@ -65,9 +76,7 @@ public class BoardService {
 			// 2-3. 파일의 본래 이름과, 저장될 이름을 리스트에 각각 담아줌
 			fileListOriginName.add(original_member_img);
 			fileList.add(savedFileName);
-		}
 		
-		for(int i = 0; i < file.size(); i++) {
 			// 3. 파일 저장 (해당 경로에 폴더가 없다면 폴더 자동 생성)
 			File uploadPath = new File(img_path, fileList.get(i));
 			// 3-1. 해당 경로에 폴더가 없다면 폴더 자동 생성
@@ -78,6 +87,7 @@ public class BoardService {
 			file.get(i).transferTo(uploadPath);
 			
 			int flag = 0;
+			
 			// 5. DB에 저장된 사진 이름 담아주기 (성공하면 int 1반환)
 			flag = photoMapper.insertImage(post_id, fileListOriginName.get(i) ,fileList.get(i));
 			
@@ -97,17 +107,27 @@ public class BoardService {
 	}
 	
 	/* 조회수 로직 */
-	public int updateViews(Long post_id, Long post_views) {
-		return boardMapper.updateViews(post_id, post_views);
+	@Transactional
+	public void updateViews(BoardDTO post, Long post_id) {
+		Long post_views = post.getPost_views();
+		++post_views;
+		boardMapper.updateViews(post_id, post_views);
+		post.setPost_views(post_views);
 	}
 	
+	
 	/* 글 삭제 */
+	@Transactional
 	public int deletePost(Long post_id) {
 		return boardMapper.deletePost(post_id);
 	}
 	
 	/* 글 수정 */
-	public int updatePost(BoardDTO board) {
+	@Transactional
+	public int updatePost(BoardDTO board, MemberDTO loginUserSession, Long post_id) {
+		board.setMember_no(loginUserSession.getMember_no());
+		board.setPost_date(Timestamp.valueOf(LocalDateTime.now().withNano(0)));
+		board.setPost_views(findById(post_id).getPost_views());
 		return boardMapper.updatePost(board);
 	}
 	
