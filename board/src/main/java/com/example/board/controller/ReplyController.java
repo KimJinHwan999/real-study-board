@@ -1,15 +1,11 @@
 package com.example.board.controller;
 
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
-
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.example.board.dto.ReplyDTO;
 import com.example.board.service.ReplyService;
 
 import lombok.RequiredArgsConstructor;

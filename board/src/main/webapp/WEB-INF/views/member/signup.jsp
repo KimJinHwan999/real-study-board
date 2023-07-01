@@ -6,8 +6,6 @@
 		<div class="form-v10-content">
 			<c:set var="purpose" value="${purpose }" />
 			
-			
-			
 				<form 	<c:if test="${purpose eq 'update'}">action="/member/updateprocess"</c:if>
 						<c:if test="${purpose eq 'signup'}">action="/member/signupprocess"</c:if> 
 						class="form-detail" id="myform" method="post" encType="multipart/form-data">
@@ -29,7 +27,8 @@
 					</div>
 				</div>
 				<div class="form-right">
-					<h2>회원 가입 정보를 입력하세요</h2>
+					<c:if test="${purpose eq 'signup' }"><h2>회원 가입 정보를 입력하세요</h2></c:if>
+					<c:if test="${purpose eq 'update' }"><h2>수정 할 회원정보를 입력하세요</h2></c:if>
 					<div class="form-row">
 						<input type="text" name="member_id" class="member_id" id="member_id" placeholder="아이디" value="${loginUserSession.member_id}" <c:if test="${purpose eq 'update'}">readonly</c:if>>
 					</div>
@@ -50,13 +49,13 @@
 					</div>
 					<div class="form-group">
 						<div class="form-row form-row-1">
-							<input type="text" name="member_name" class="member_name" id="member_name" placeholder="이름" value="${loginUserSession.member_name} "  style="width:300px;">
+							<input type="text" name="member_name" class="member_name" id="member_name" placeholder="이름" value="${loginUserSession.member_name}"  style="width:300px;">
 						</div>
 						<div class="form-row form-row-2">
 								<select name="member_gender" id="member_gender">
 									    <option value="gender">성별</option>
-									    <option value="m">남성</option>
-									    <option value="f">여성</option>
+									    <option value="m" <c:if test="${loginUserSession.member_gender eq 'm' }">selected</c:if>>남성</option>
+									    <option value="f" <c:if test="${loginUserSession.member_gender eq 'w' }">selected</c:if>>여성</option>
 								</select>
 							<span class="select-btn">
 							  	<i class="zmdi zmdi-chevron-down"></i>
@@ -92,7 +91,8 @@
 					</div>
 					
 					<div class="form-row-last">
-						<input type="submit" name="register" class="register" id="submit" value="회원가입">
+						<c:if test="${purpose eq 'signup' }"><input type="submit" name="register" class="register" id="submit" value="회원가입"></c:if>
+						<c:if test="${purpose eq 'update' }"><input type="submit" name="register" class="register" id="submit" value="회원정보수정"></c:if>
 					</div>
 					
 					

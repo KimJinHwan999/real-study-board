@@ -1,4 +1,6 @@
 $(document).ready(function(){
+	
+	
 
 
 
@@ -189,7 +191,7 @@ $(document).ready(function(){
 		}
 
 /* 이름 형식 검사 */		
-		if(!nRegExp.test($("#member_name").val())){
+		if(!nRegExp.test($("#member_name").val().trim())){
             alert("한글로 2글자 이상 입력하여주세요.");
             return false;
         }
@@ -246,7 +248,13 @@ $(document).ready(function(){
 	
 /*========== 사진 유효성 검사 ==========*/
 /* 사진 입력여부 검사 */	
-		if($("#member_img").val() == ""){
+		/*if($("#member_img").val() == ""){
+			alert("프로필 사진을 설정해주세요.");
+			$("#member_img").focus();
+			return false;
+		}*/
+		if($("#img-file").attr("src") == "/images/img-01.png"){
+			alert($("#img-file").attr("src"));
 			alert("프로필 사진을 설정해주세요.");
 			$("#member_img").focus();
 			return false;

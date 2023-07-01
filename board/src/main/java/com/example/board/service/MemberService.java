@@ -54,7 +54,9 @@ public class MemberService {
 		member.setMember_no(member_no);
 		
 		/* 프로필 이미지 경로 설정 메소드 */
-		memberImgPath(member, file);
+		if(file.getSize() > 0) {
+			memberImgPath(member, file);
+		}
 		
 		/* 암호 해쉬화 메소드 */
 		hashPassWord(member);
