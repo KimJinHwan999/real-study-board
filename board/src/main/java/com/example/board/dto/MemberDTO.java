@@ -17,6 +17,7 @@ public class MemberDTO {
 	private String member_phone;
 	private String member_email;
 	private String member_img;
+	private Long member_logincnt;
 	
 	
 

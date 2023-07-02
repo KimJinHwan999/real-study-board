@@ -8,7 +8,7 @@
 <link rel="stylesheet" type="text/css" href="/css/mypage.css"/>
 <script src="/jquery/js/jquery-3.7.0.min.js"></script>
 <script type="text/javascript" src="/bootstrap/js/bootstrap.js"></script>
-<script type="text/javascript" src="/js/boardHichart.js"></script>
+<script type="text/javascript" src="/js/hchart.js"></script>
 
 
 <script src="https://code.highcharts.com/highcharts.js"></script>

@@ -46,7 +46,7 @@
 		 WHERE member_no=#{member_no}
 	</select>
 	
-	<!-- 게시글 수정 -->
+	<!-- 회원정보 수정 -->
 	<update id="updateMember" parameterType="com.example.board.dto.BoardDTO">
 		UPDATE MEMBER 
 		   SET
@@ -58,6 +58,13 @@
 			   member_email = #{member_email}
 		 WHERE 
 			   member_no = #{member_no}
+	</update>
+	
+	<!-- 로그인 횟수 수정 -->
+	<update id="updateLoginCnt">
+		UPDATE MEMBER 
+		   SET member_logincnt = #{member_logincnt}
+		 WHERE member_no = #{member_no}
 	</update>
 	
 </mapper>

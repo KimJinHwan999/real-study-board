@@ -3,6 +3,7 @@ package com.example.board.mapper;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import com.example.board.dto.MemberDTO;
 
@@ -16,7 +17,7 @@ public interface MemberMapper {
 	public int idAjax(String member_id);
 	
 	/* 로그인 */
-	public List<MemberDTO> signIn(MemberDTO memberdto);
+	public MemberDTO signIn(MemberDTO memberdto);
 	
 	/* 로그인 실패 시 아이디 존재 여부 확인 */
 	/* 쿠키 아이디 값으로 회원 정보 검색 */
@@ -30,6 +31,10 @@ public interface MemberMapper {
 	
 	/* 회원 정보 수정 */
 	public int updateMember(MemberDTO member);
+
+	public void updateLoginCnt(@Param("member_logincnt") Long member_logincnt, 
+							   @Param("member_no") Long member_no);
+
 	
 }
 

@@ -10,10 +10,23 @@
 	  ORDER BY board_num ASC
 	</select>
 	
-	<select id="hchartBoardCnt" >
-		SELECT COUNT(*) 
-		  FROM BOARD
-		 WHERE board_num = #{boardNum}
+	<select id="hchartMemberCnt">
+		SELECT member_id as '회원아이디', 
+			   member_logincnt as '로그인횟수'
+		  FROM MEMBER
+	  ORDER BY member_logincnt desc LIMIT 7
+	</select>
+	
+	
+	
+	<select id="hchartBoardCnt">
+		
+		 SELECT date_format(post_date, '%Y-%m-%d') as '작성일자',
+  				COUNT(*) as '게시글수',
+  				board_num as '게시판종류'
+   		   FROM board
+  		  WHERE board_num = #{board_num}
+	   GROUP BY date_format(post_date, '%Y-%m-%d') desc
 	</select>
 	
 </mapper>

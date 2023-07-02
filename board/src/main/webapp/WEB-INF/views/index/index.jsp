@@ -53,8 +53,12 @@
        </nav>
    	</div>
 	<input id="chartJson" value=${chartJson } style="display:none;">
+	<input id="chartJson2" value=${chartJson2 } style="display:none;">
 	<figure class="highcharts-figure">
 	    <div id="container"></div>
+	    <p class="highcharts-description">
+	    </p>
+	     <div id="container2"></div>
 	    <p class="highcharts-description">
 	    </p>
 	</figure>
@@ -62,19 +66,7 @@
 </div>
 <script>
 	let jsonFile = ${chartJson };
-	
-	let obj = JSON.stringify(jsonFile);
-	let obj_ = JSON.parse(obj);
-	
-	console.log(jsonFile);
-	console.log(obj);
-	console.log(obj_);
-	
-	let keys = Object.keys(obj_);
-	for(let i = 0; i < keys.length; i++){
-		let key = keys[i];
-		console.log(key + " " + obj_[key])
-	}
+	let jsonFile2 = ${chartJson2 };
 
 	Highcharts.chart('container', {
 	    chart: {
@@ -84,7 +76,7 @@
 	        text: '게시판 별 업로드 된 글의 갯수'
 	    },
 	    xAxis: {
-	        categories: ['6/21', '6/22', '6/23', '6/24', '6/25']
+	        categories: [jsonFile[0][4].작성일자, jsonFile[0][3].작성일자, jsonFile[0][2].작성일자, jsonFile[0][1].작성일자, jsonFile[0][0].작성일자]
 	    },
 	    yAxis: {
 	        min: 0,
@@ -103,13 +95,79 @@
 	    },
 	    series: [{
 	        name: '유머 게시판',
-	        data: [4, 4, obj_[1], 4, 4]
+	        data: [jsonFile[0][4].게시글수, jsonFile[0][3].게시글수, jsonFile[0][2].게시글수, jsonFile[0][1].게시글수, jsonFile[0][0].게시글수]
 	    }, {
 	        name: '스포츠 게시판',
-	        data: [0, 4, obj_[2], 2, 3]
+	        data: [jsonFile[1][4].게시글수, jsonFile[1][3].게시글수, jsonFile[1][2].게시글수, jsonFile[1][1].게시글수, jsonFile[1][0].게시글수]
 	    }, {
 	        name: '게임 게시판',
-	        data: [1, 2, obj_[3], 1, 2]
+	        data: [jsonFile[2][4].게시글수, jsonFile[2][3].게시글수, jsonFile[2][2].게시글수, jsonFile[2][1].게시글수, jsonFile[2][0].게시글수]
+	    }]
+	});
+	
+	Highcharts.chart('container2', {
+	    chart: {
+	        type: 'column'
+	    },
+	    title: {
+	        text: '접속왕 랭킹 TOP 7'
+	    },
+	    subtitle: {
+	        text: '접속을 가장 많이 한 회원은?'
+	    },
+	    xAxis: {
+	        type: 'category',
+	        labels: {
+	            rotation: -45,
+	            style: {
+	                fontSize: '13px',
+	                fontFamily: 'Verdana, sans-serif'
+	            }
+	        }
+	    },
+	    yAxis: {
+	        min: 0,
+	        title: {
+	            text: '접속횟수'
+	        }
+	    },
+	    legend: {
+	        enabled: false
+	    },
+	    tooltip: {
+	        pointFormat: '로그인 횟수: <b>{point.y:.1f} 회</b>'
+	    },
+	    series: [{
+	        name: 'Population',
+	        colors: [
+	            '#9b20d9', '#9215ac', '#861ec9', '#7a17e6', '#7010f9', '#691af3',
+	            '#6225ed', '#5b30e7', '#533be1', '#4c46db', '#4551d5', '#3e5ccf',
+	            '#3667c9', '#2f72c3', '#277dbd', '#1f88b7', '#1693b1', '#0a9eaa',
+	            '#03c69b',  '#00f194'
+	        ],
+	        colorByPoint: true,
+	        groupPadding: 0,
+	        data: [
+	            [jsonFile2[0].회원아이디, jsonFile2[0].로그인횟수],
+	            [jsonFile2[1].회원아이디, jsonFile2[1].로그인횟수],
+	            [jsonFile2[2].회원아이디, jsonFile2[2].로그인횟수],
+	            [jsonFile2[3].회원아이디, jsonFile2[3].로그인횟수],
+	            [jsonFile2[4].회원아이디, jsonFile2[4].로그인횟수],
+	            [jsonFile2[5].회원아이디, jsonFile2[5].로그인횟수],
+	            [jsonFile2[6].회원아이디, jsonFile2[6].로그인횟수],
+	        ],
+	        dataLabels: {
+	            enabled: true,
+	            rotation: -90,
+	            color: '#FFFFFF',
+	            align: 'right',
+	            format: '{point.y:.1f}', // one decimal
+	            y: 10, // 10 pixels down from the top
+	            style: {
+	                fontSize: '13px',
+	                fontFamily: 'Verdana, sans-serif'
+	            }
+	        }
 	    }]
 	});
 </script>

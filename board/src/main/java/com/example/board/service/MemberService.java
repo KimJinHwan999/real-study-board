@@ -109,9 +109,14 @@ public class MemberService {
 	}
 	
 	/* 로그인 */
-	public List<MemberDTO> signIn(MemberDTO memberdto){
+	@Transactional
+	public MemberDTO signIn(MemberDTO memberdto){
 		hashPassWord(memberdto);
-		return memberMapper.signIn(memberdto);
+		MemberDTO loginMember = (MemberDTO) memberMapper.signIn(memberdto);
+		Long member_logincnt = loginMember.getMember_logincnt();
+		member_logincnt++;
+		memberMapper.updateLoginCnt(member_logincnt, loginMember.getMember_no());
+		return loginMember;
 	}
 	
 	/* 로그인 실패 원인 찾는 메소드 */

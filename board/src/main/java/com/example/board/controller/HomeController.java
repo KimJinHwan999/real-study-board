@@ -2,6 +2,7 @@ package com.example.board.controller;
 
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
@@ -40,11 +41,13 @@ public class HomeController {
 		Map<String, Object> page = (HashMap<String, Object>) pagingService.pagingLogic(pgNum);
 			
 		/* 하이차트 */
-		JsonObject chartJson = (JsonObject) hchartService.chartJson();
+		String chartJson = (String) hchartService.chartJson();
+		String chartJson2 = (String) hchartService.chartJson2();
 		
 		model.addAttribute("loginMember", sessionMember);
 		model.addAttribute("page", page);
 		model.addAttribute("chartJson", chartJson);
+		model.addAttribute("chartJson2", chartJson2);
 		
 		return "index/index";
 
@@ -63,11 +66,14 @@ public class HomeController {
 		Map<String, Object> page = (HashMap<String, Object>) pagingService.pagingLogic(pgNum);
 			
 		/* 하이차트 */
-		JsonObject chartJson = (JsonObject) hchartService.chartJson();
+		String chartJson = (String) hchartService.chartJson();
+		String chartJson2 = (String) hchartService.chartJson2();
+		
 		
 		model.addAttribute("loginMember", sessionMember);
 		model.addAttribute("page", page);
 		model.addAttribute("chartJson", chartJson);
+		model.addAttribute("chartJson2", chartJson2);
 		
 		return "index/index";
 

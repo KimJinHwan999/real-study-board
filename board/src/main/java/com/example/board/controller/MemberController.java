@@ -79,15 +79,16 @@ public class MemberController {
 								HttpSession session,
 								Model model) throws Exception {
 		
+		MemberDTO loginMember = memberService.signIn(memberdto);
+		
 		// 1. DB에 아이디와 비밀번호를 대조했는데, 일치하는 값이 나오지 않은 경우 (로그인 실패 이유 msg에 담아 화면에 출력)
-		if(memberService.signIn(memberdto).size() == 0) {
+		if(loginMember == null) {
 			model.addAttribute("msg", memberService.loginFail(memberdto));		
 			return "member/signin";
 		}
 		
 		// 2. 로그인이 성공한 경우 (세션에 등록)
-		MemberDTO loginUserSession = memberService.findById(memberdto.getMember_id());
-		session.setAttribute("loginUserSession", loginUserSession);
+		session.setAttribute("loginUserSession", loginMember);
 		
 		return "redirect:/";
 		
