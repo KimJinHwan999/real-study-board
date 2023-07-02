@@ -2,7 +2,6 @@ package com.example.board.controller;
 
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
@@ -16,7 +15,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import com.example.board.dto.MemberDTO;
 import com.example.board.service.HchartService;
 import com.example.board.service.PagingService;
-import com.google.gson.JsonObject;
 
 import lombok.RequiredArgsConstructor;
 

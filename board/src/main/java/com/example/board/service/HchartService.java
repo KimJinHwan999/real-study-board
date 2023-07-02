@@ -1,8 +1,6 @@
 package com.example.board.service;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -10,8 +8,6 @@ import org.springframework.stereotype.Service;
 
 import com.example.board.mapper.HchartMapper;
 import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
 
 import lombok.RequiredArgsConstructor;
 

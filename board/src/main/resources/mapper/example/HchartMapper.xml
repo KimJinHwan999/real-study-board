@@ -14,7 +14,7 @@
 		SELECT member_id as '회원아이디', 
 			   member_logincnt as '로그인횟수'
 		  FROM MEMBER
-	  ORDER BY member_logincnt desc LIMIT 7
+	  ORDER BY member_logincnt DESC LIMIT 7
 	</select>
 	
 	
@@ -26,7 +26,7 @@
   				board_num as '게시판종류'
    		   FROM board
   		  WHERE board_num = #{board_num}
-	   GROUP BY date_format(post_date, '%Y-%m-%d') desc
+	   GROUP BY date_format(post_date, '%Y-%m-%d') DESC
 	</select>
 	
 </mapper>
