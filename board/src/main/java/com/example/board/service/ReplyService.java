@@ -25,7 +25,9 @@ public class ReplyService {
 	}
 	
 	@Transactional
-	public int insertReply(Long post_id,
+	public Long insertReply(Long post_id,
+						   Long parent_id,
+						   Long child_id,
 						   Long member_no,
 						   String member_id,
 						   String reply_content) {
@@ -34,12 +36,17 @@ public class ReplyService {
 		
 		ReplyDTO reply = new ReplyDTO();
 		reply.setPost_id(post_id);
+		reply.setParent_id(parent_id);
+		reply.setChild_id(child_id);
 		reply.setMember_no(member_no);
 		reply.setMember_id(member_id);
 		reply.setReply_content(reply_content);
 		reply.setReply_date(reply_date);
 		
-		return replyMapper.insertReply(reply);
+		replyMapper.insertReply(reply);
+		
+		
+		return reply.getReply_id();
 	}
 	
 	@Transactional
@@ -50,6 +57,10 @@ public class ReplyService {
 	@Transactional
 	public int deleteAllReply(Long post_id) {
 		return replyMapper.deleteAllReply(post_id);
+	}
+
+	public int updateReplyChild(Long parent_id, Long reply_id) {
+		return replyMapper.updateReplyChild(parent_id, reply_id);
 	}
 	
 	

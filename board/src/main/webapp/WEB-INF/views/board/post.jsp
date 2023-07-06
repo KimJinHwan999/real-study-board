@@ -81,25 +81,72 @@
 					<table class="table table-striped">
 			            <thead>
 			            <tr>
-			                <th>댓글작성자</th>
+			                <th>댓글번호</th>
 			                <th>댓글내용</th>
+			                <th>댓글작성자</th>
 			                <th>작성일자</th>
 			            </tr>
 			            </thead>
-			            <tbody>
-			            <c:forEach var="reply" items="${reply }" >
-				            <tr>
-				                <td id="test">${reply.member_id }</td>
+			            <tbody id="replyView">
+			            <c:choose>
+			            <c:when test="${reply == null}">
+			            	<tr>
+				            	<td>등록된 글이 없습니다</td>
+				            	<td>등록된 글이 없습니다</td>
+				            	<td>등록된 글이 없습니다</td>
+				            	<td>등록된 글이 없습니다</td>
+			            	</tr>
+			            </c:when>
+			            
+			            
+			            
+			            <c:when test="${reply != null}">
+			            <c:forEach var="reply" items="${reply }" varStatus="postNum">
+				            <tr id="replyParents${postNum.count }" class="${postNum.count}">
+				            	<td>${postNum.count }</td>
+				            	<td id="replyId" style="display:none;">${reply.reply_id}</td>
+				            	<td id="parent_id${postNum.count }" style="display:none;">${reply.parent_id}</td>
+							    <td id="child_id${postNum.count }" style="display:none;">${reply.child_id}</td>
 				                <td>${reply.reply_content }</td>
+				                <td>${reply.member_id }</td>
 				                <td>${reply.reply_date }</td>
+				                <!-- 삭제 버튼 -->
 				                <c:set var="reply.member_no" value="${reply.member_no}" />
 				                <c:if test="${loginUserSession.member_no eq reply.member_no}">
 				                	<td><button id="replyDelete">삭제</button></td>
 				                	<td><input id="replyDeleteIdValue" value="${reply.reply_id }" style="display:none;"></td>
 				                	<td><input id="replyDeleteAjaxPath" value="/board/reply/delete/${reply.reply_id }" style="display:none;"></td>
 				                </c:if>
+				                
+				                
+			            		
+			            		
+				            </tr>
+				            
+				                <!-- 대댓글 표시 -->
+			                <tr>
+				                <c:choose>
+				                	<c:when test="${reply.child_id != null}">
+				                		
+						            	<td>[답변] : ${postNum.count }</td>
+						            	<td id="parent_id" style="display:none;">${reply.parent_id}</td>
+						            	<td id="child_id" style="display:none;">${reply.child_id}</td>
+						                <td>${reply.reply_content }</td>
+						                <td>${reply.member_id }</td>
+						                <td>${reply.reply_date }</td>
+						         	</c:when>
+				                </c:choose>
+				            </tr>
+				            
+				            <!-- 대댓글 등록 -->
+				            <tr id="replyAddBox${postNum.count }" style="display:none; width:100%;">
+				            	<td><textarea id="replyAddContent${postNum.count }" name="replyAddContent" placeholder="대댓글을 입력하세요"></textarea></td>
+			            		<td><button id="replyAddAjaxBtn${postNum.count }">등록</button></td>
+			            		<td><input id="replyAddAjaxPath${postNum.count }" name="replyAddAjaxPath" value="/board/reply/replyadd/${post.post_id}/${reply.reply_id}" style="display:none;"></td>
 				            </tr>
 			            </c:forEach>
+			            </c:when>
+			            </c:choose>
 			            
 			            </tbody>
 			        </table>

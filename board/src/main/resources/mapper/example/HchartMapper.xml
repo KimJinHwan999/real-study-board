@@ -17,10 +17,7 @@
 	  ORDER BY member_logincnt DESC LIMIT 7
 	</select>
 	
-	
-	
 	<select id="hchartBoardCnt">
-		
 		 SELECT date_format(post_date, '%Y-%m-%d') as '작성일자',
   				COUNT(*) as '게시글수',
   				board_num as '게시판종류'

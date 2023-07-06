@@ -1,6 +1,8 @@
 package com.example.board.dto;
 
 import java.sql.Timestamp;
+import java.util.HashMap;
+import java.util.Map;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -10,6 +12,8 @@ import lombok.Setter;
 public class ReplyDTO {
 
 	private Long reply_id;
+	private Long parent_id;
+	private Long child_id;
 	private Long post_id;
 	private Long member_no;
 	private String member_id;

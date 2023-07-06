@@ -10,12 +10,16 @@
 		 WHERE post_id = #{post_id}
 	</select>
 	
-	<insert id="insertReply" parameterType="com.example.board.dto.ReplyDTO" useGeneratedKeys="true" keyProperty="reply_id">
-		INSERT INTO REPLY (reply_id, post_id, member_no, member_id, reply_content, reply_date)
-		     VALUES (#{reply_id}, #{post_id}, #{member_no}, #{member_id}, #{reply_content}, #{reply_date})
-		
-	</insert>
 
+	<insert id="insertReply" parameterType="com.example.board.dto.ReplyDTO" useGeneratedKeys="true" keyProperty="reply_id">
+		<selectKey keyProperty="reply_id" resultType="long" order="BEFORE">
+			SELECT MAX(reply_id) + 1
+			  FROM REPLY
+		</selectKey>
+		INSERT INTO REPLY (reply_id, post_id, parent_id, child_id, member_no, member_id, reply_content, reply_date)
+		     VALUES (#{reply_id}, #{post_id}, #{parent_id}, #{child_id}, #{member_no}, #{member_id}, #{reply_content}, #{reply_date})
+	</insert>
+	
 	<delete id="deleteReply">
 		DELETE 
 		  FROM REPLY 
@@ -27,6 +31,12 @@
 		  FROM REPLY 
 		 WHERE post_id = #{post_id}
 	</delete>
+	
+	<update id="updateReplyChild">
+		UPDATE REPLY 
+		   SET child_id = #{reply_id}
+		 WHERE reply_id = #{parent_id}
+	</update>
 
 </mapper>
 	

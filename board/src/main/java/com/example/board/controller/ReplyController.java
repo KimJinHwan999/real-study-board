@@ -22,8 +22,24 @@ public class ReplyController {
 									Long member_no,
 									String member_id,
 									String reply_content) {
+		Long parent_id = null;
+		Long child_id = null;
 		
-		replyService.insertReply(post_id, member_no, member_id, reply_content);
+		replyService.insertReply(post_id, parent_id, child_id, member_no, member_id, reply_content);
+		
+		return "/board/post/{post_id}";
+	}
+	
+	@ResponseBody
+	@PostMapping("/board/reply/replyadd/{post_id}/{reply_id}")
+	public String insertReplyAddAction(@PathVariable("post_id") Long post_id,
+									   @PathVariable("reply_id") Long parent_id,
+									   Long member_no,
+									   String member_id,
+									   String reply_content) {
+		
+		Long reply_id = replyService.insertReply(post_id, parent_id, null, member_no, member_id, reply_content);
+		replyService.updateReplyChild(parent_id, reply_id);
 		
 		return "/board/post/{post_id}";
 	}

@@ -7,6 +7,48 @@ $(document).ready(function(){
 		
 	});
 	
+	let replyNumbers = [];
+	for(let i = 0; i <= $("#replyView").find("tr:last").prev().prev().attr('class'); i++){
+		replyNumbers.push(i);
+		$("#replyParents"+replyNumbers[i]).click(function(){
+			$("#replyAddBox"+replyNumbers[i]).css("display", "block")
+		})
+	/* 대댓글 입력 ajax */
+		$("#replyAddAjaxBtn"+replyNumbers[i]).click(function(){
+	    	let member_no = $("#member_no").val();
+	    	let member_id = $("#member_id").val();
+		    let reply_content = $("#replyAddContent"+replyNumbers[i]).val();
+		    let replyUrl = $("#replyAddAjaxPath"+replyNumbers[i]).val();
+		     
+		    $.ajax({
+		        type:'post', 
+		        url: replyUrl, 
+		        data: {
+					"member_no" : member_no,
+					"member_id" : member_id,
+					"reply_content" : reply_content
+					}, 
+		        success: function(data){ 
+		            if(data != null){ // 만약 성공할시
+		            	alert('대댓글작성완료');
+		            	window.location.reload();
+		             
+		         	}else{ // 만약 실패할시
+		             	alert('대댓글작성실패');
+					}
+		     	},
+		        	error : function(error){alert(error);}
+		    });
+	        
+		});
+		
+		
+		
+	
+	}
+	
+	
+	
 	
 	/* 댓글 입력 ajax */
 	$("#replyAjaxButton").click(function(){
@@ -38,6 +80,8 @@ $(document).ready(function(){
 	    });
         
 	});
+	
+	
 	
 	
 	/* 댓글 삭제 ajax */
